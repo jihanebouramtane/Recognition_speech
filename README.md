@@ -111,7 +111,7 @@ python app0.py
 ### 📚 Datasets Utilisés
 
 - **Anglais** : Mozilla Common Voice English (sous-ensemble)
-- **Arabe Standard** : Mozilla Common Voice Arabic
+- **Arabe** : Mozilla Common Voice Arabic
 - **Darija** : UBC-NLP Casablanca Dataset
 
 ### 🔍 Contributions Principales
