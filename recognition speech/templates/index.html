@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceScribe Pro - Reconnaissance Vocale Avancée</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #f39c12;
+            --text-color: #333;
+            --light-text: #777;
+            --background-light: #f5f5f5;
+            --white: #fff;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            color: var(--white);
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        .active {
+            color: var(--accent-color) !important;
+            font-weight: 700;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .app-info h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .app-info p {
+            margin-bottom: 1.5rem;
+            color: var(--light-text);
+        }
+
+        .feature-list {
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon {
+            background-color: rgba(52, 152, 219, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-text h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-text p {
+            font-size: 0.9rem;
+            color: var(--light-text);
+        }
+
+        .app-form {
+            padding: 2rem;
+            background-color: rgba(52, 152, 219, 0.05);
+            border-radius: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        select, input[type="file"], button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: var(--white);
+            transition: all 0.3s;
+        }
+
+        select:focus, input[type="file"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(52, 152, 219, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .result h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .result-text {
+            background: var(--white);
+            color: var(--text-color);
+            font-size: 1rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        /* About Me section */
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .profile-section {
+            text-align: center;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border: 5px solid var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-title {
+            color: var(--light-text);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link {
+            background-color: var(--primary-color);
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .social-link:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .contact-info {
+            margin-top: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-icon {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .bio-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .bio-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .skills-section {
+            margin-bottom: 2rem;
+        }
+
+        .skills-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .skill-item {
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 0.75rem 1rem;
+            border-radius: 30px;
+            text-align: center;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .experience-section {
+            margin-bottom: 2rem;
+        }
+
+        .experience-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .experience-item {
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .experience-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .experience-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .experience-company {
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .experience-duration {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+        /* Style pour la fun-quote */
+        .fun-quote {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(243, 156, 18, 0.1) 100%);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+        
+        .fun-quote::before, .fun-quote::after {
+            content: '"';
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            position: absolute;
+            opacity: 0.3;
+        }
+        
+        .fun-quote::before {
+            left: 10px;
+            top: -5px;
+        }
+        
+        .fun-quote::after {
+            right: 10px;
+            bottom: -25px;
+        }
+        
+        .fun-quote-content {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+        
+        .fun-quote-emoji {
+            font-size: 1.5rem;
+            display: inline-block;
+            margin: 0 0.3rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo" onclick="showPage('home')">Voice<span>Scribe</span> Pro</a>
+            <nav>
+                <ul>
+                    <li><a href="#" id="home-link" class="active" onclick="showPage('home')">Accueil</a></li>
+                    <li><a href="#" id="about-link" onclick="showPage('about')">À propos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Page -->
+        <div id="home-page">
+            <h1 class="page-title">Reconnaissance Vocale Professionnelle</h1>
+            
+            <div class="fun-quote">
+                <p class="fun-quote-content">
+                    <span class="fun-quote-emoji">🗣️</span> 
+                    "Pourquoi taper quand vous pouvez parler ? Votre voix mérite d'être entendue... et transcrite parfaitement !"
+                    <span class="fun-quote-emoji">✨</span>
+                </p>
+                <p>La technologie au service de votre productivité, un mot à la fois.</p>
+            </div>
+            
+            <div class="app-container">
+                <div class="app-info card">
+                    <h2>Transcription vocale de pointe</h2>
+                    <p>Utilisez notre technologie d'intelligence artificielle avancée pour convertir n'importe quel fichier audio en texte avec une précision exceptionnelle.</p>
+                    
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">🧠</div>
+                            <div class="feature-text">
+                                <h4>Deep Learning</h4>
+                                <p>Algorithmes d'apprentissage profond entraînés sur des millions d'heures d'audio</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📊</div>
+                            <div class="feature-text">
+                                <h4>Analyse de spectrogrammes</h4>
+                                <p>Traitement avancé des signaux pour capturer les nuances de la parole</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔄</div>
+                            <div class="feature-text">
+                                <h4>Décodage CTC</h4>
+                                <p>Technique de pointe pour aligner les séquences audio et textuelles</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🌐</div>
+                            <div class="feature-text">
+                                <h4>Support multilingue</h4>
+                                <p>Prise en charge de plusieurs langues dont l'anglais et le darija</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="app-form card">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="langue">Sélectionnez une langue :</label>
+                            <select name="langue" id="langue" onchange="changeLanguage()" required>
+                                <option value="">🌐 Choisir une langue</option>
+                                <option value="en">English</option>
+                                <option value="darija">Darija (المغربية)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label id="file-label" for="file">Sélectionnez un fichier audio  :</label>
+                            <input type="file" name="file" id="file" accept=".wav" required>
+                        </div>
+                        
+                        <button type="submit" id="submit-button">Lancer la transcription</button>
+                    </form>
+                    
+                    {% if prediction %}
+                    <div class="result">
+                        <h3 id="result-title">📝 Résultat de la transcription :</h3>
+                        <div class="result-text">{{ prediction }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- About Page -->
+        <div id="about-page" class="hidden">
+            <h1 class="page-title">À propos de moi</h1>
+            
+            <div class="about-container card">
+                <div class="profile-section">
+                    <img src="WhatsApp Image 2025-04-15 at 01.35.52.jpeg" alt="Photo de profil" class="profile-image">
+                    <h2 class="profile-name">Bouramtane Jihane</h2>
+                    <p class="profile-title">Ingénieur en Transformation Digitale et AI</p>
+                    
+                    <div class="social-links">
+                        <a href="#" class="social-link">Li</a>
+                        <a href="#" class="social-link">Gh</a>
+                        <a href="#" class="social-link">Tw</a>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <span class="contact-icon">✉️</span>
+                            <span>jihanebouramtane2002@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">📱</span>
+                            <span>+212 6XX XXX XXX</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">📍</span>
+                            <span>Al houceima, Maroc</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bio-section">
+                    <h2>Biographie</h2>
+                    <p class="bio-text">
+                        Je suis un ingénieur passionné par l'intelligence artificielle et le traitement du langage naturel. Spécialisé dans le développement de solutions de reconnaissance vocale avancées, je combine expertise technique et créativité pour résoudre des problèmes complexes.
+                    </p>
+                    <p class="bio-text">
+                        Avec plus de 2 ans d'expérience dans le domaine du machine learning et des technologies web, j'ai travaillé sur divers projets allant des assistants vocaux aux systèmes de transcription automatique pour plusieurs langues, notamment le darija marocain.
+                    </p>
+                    
+                    <div class="skills-section">
+                        <h3>Compétences</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">Python</div>
+                            <div class="skill-item">TensorFlow</div>
+                            <div class="skill-item">PyTorch</div>
+                            <div class="skill-item">Flask</div>
+                            <div class="skill-item">JavaScript</div>
+                            <div class="skill-item">HTML/CSS</div>
+                            <div class="skill-item">Deep Learning</div>
+                            <div class="skill-item">NLP</div>
+                            <div class="skill-item">ASR</div>
+                            <div class="skill-item">Signal Processing</div>
+                        </div>
+                    </div>
+                    
+                    <div class="experience-section">
+                        <h3>Expérience professionnelle</h3>
+                        <div class="experience-item">
+                            <div class="experience-title">VoiceScribePro</div>
+                            <div class="experience-company">Ensah</div>
+                            <div class="experience-duration">Mai 2025 - Présent</div>
+                            <p>Conception et développement de solutions de reconnaissance vocale avancées pour différentes langues et dialectes, notamment le darija marocain.</p>
+                        </div>
+                        <div class="experience-item">
+                            <div class="experience-title">Sentiment Analytique</div>
+                            <div class="experience-company">ensah</div>
+                            <div class="experience-duration">Déc 2024 </div>
+                            <p>Détection des sentiments à partir les phrases seulement </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2025 VoiceScribe Pro. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+                 function changeLanguage() {
+    const lang = document.getElementById("langue").value;
+    const fileLabel = document.getElementById("file-label");
+    const submitButton = document.getElementById("submit-button");
+    const resultTitle = document.getElementById("result-title");
+    
+    // Changer les éléments de l'interface en fonction de la langue
+    if (lang === "en") {
+        // Changement des éléments de navigation
+        document.querySelector(".logo").innerHTML = "Voice<span>Scribe</span> Pro";
+        document.getElementById("home-link").innerText = "Home";
+        document.getElementById("about-link").innerText = "About";
+        
+        // Changement du titre de la page
+        document.querySelector(".page-title").innerText = "Professional Voice Recognition";
+        
+        // Changement de la fun-quote
+        const funQuoteContent = document.querySelector(".fun-quote-content");
+        if (funQuoteContent) {
+            funQuoteContent.innerHTML = '<span class="fun-quote-emoji">🗣️</span> "Why type when you can talk? Your voice deserves to be heard... and perfectly transcribed!" <span class="fun-quote-emoji">✨</span>';
+        }
+        const funQuoteParagraph = document.querySelector(".fun-quote p:last-child");
+        if (funQuoteParagraph) {
+            funQuoteParagraph.innerText = "Technology at the service of your productivity, one word at a time.";
+        }
+        
+        // Changement des contenus de la section info
+        document.querySelector(".app-info h2").innerText = "Advanced Voice Transcription";
+        document.querySelector(".app-info p").innerText = "Use our advanced artificial intelligence technology to convert any audio file to text with exceptional accuracy.";
+        
+        // Changement des features
+        const featureTexts = document.querySelectorAll(".feature-text");
+        featureTexts[0].querySelector("h4").innerText = "Deep Learning";
+        featureTexts[0].querySelector("p").innerText = "Deep learning algorithms trained on millions of hours of audio";
+        
+        featureTexts[1].querySelector("h4").innerText = "Spectrogram Analysis";
+        featureTexts[1].querySelector("p").innerText = "Advanced signal processing to capture speech nuances";
+        
+        featureTexts[2].querySelector("h4").innerText = "CTC Decoding";
+        featureTexts[2].querySelector("p").innerText = "Cutting-edge technique for aligning audio and text sequences";
+        
+        featureTexts[3].querySelector("h4").innerText = "Multilingual Support";
+        featureTexts[3].querySelector("p").innerText = "Support for multiple languages including English and Darija";
+        
+        // Changement des éléments du formulaire
+        document.querySelector("label[for='langue']").innerText = "Select a language:";
+        document.getElementById("langue").querySelector("option[value='']").innerText = "🌐 Choose a language";
+        fileLabel.innerText = "Select an audio file (.wav):";
+        submitButton.innerText = "Start Transcription";
+        
+        // Changement du titre du résultat
+        if (resultTitle) resultTitle.innerText = "📝 Transcription Result:";
+        
+    } else if (lang === "darija") {
+        // Pour darija, on garde l'interface en français pour simplifier
+        fileLabel.innerText = "اختار ملف صوتي (.wav):";
+        submitButton.innerText = "بدء النسخ";
+        if (resultTitle) resultTitle.innerText = "📝 نتيجة النسخ:";
+        
+        // Changement de la fun-quote pour Darija
+        const funQuoteContent = document.querySelector(".fun-quote-content");
+        if (funQuoteContent) {
+            funQuoteContent.innerHTML = '<span class="fun-quote-emoji">🗣️</span> "علاش تكتب إيلا قدرتي تهدر؟ صوتك يستاهل يتسمع... ويتكتب بشكل مثالي!" <span class="fun-quote-emoji">✨</span>';
+        }
+        const funQuoteParagraph = document.querySelector(".fun-quote p:last-child");
+        if (funQuoteParagraph) {
+            funQuoteParagraph.innerText = "التكنولوجيا في خدمة إنتاجيتك، كلمة بكلمة.";
+        }
+    } else {
+        // Par défaut: français
+        document.querySelector(".logo").innerHTML = "Voice<span>Scribe</span> Pro";
+        document.getElementById("home-link").innerText = "Accueil";
+        document.getElementById("about-link").innerText = "À propos";
+        
+        document.querySelector(".page-title").innerText = "Reconnaissance Vocale Professionnelle";
+        
+        // Réinitialiser la fun-quote
+        const funQuoteContent = document.querySelector(".fun-quote-content");
+        if (funQuoteContent) {
+            funQuoteContent.innerHTML = '<span class="fun-quote-emoji">🗣️</span> "Pourquoi taper quand vous pouvez parler ? Votre voix mérite d\'être entendue... et transcrite parfaitement !" <span class="fun-quote-emoji">✨</span>';
+        }
+        const funQuoteParagraph = document.querySelector(".fun-quote p:last-child");
+        if (funQuoteParagraph) {
+            funQuoteParagraph.innerText = "La technologie au service de votre productivité, un mot à la fois.";
+        }
+        
+        document.querySelector(".app-info h2").innerText = "Transcription vocale de pointe";
+        document.querySelector(".app-info p").innerText = "Utilisez notre technologie d'intelligence artificielle avancée pour convertir n'importe quel fichier audio en texte avec une précision exceptionnelle.";
+        
+        const featureTexts = document.querySelectorAll(".feature-text");
+        featureTexts[0].querySelector("h4").innerText = "Deep Learning";
+        featureTexts[0].querySelector("p").innerText = "Algorithmes d'apprentissage profond entraînés sur des millions d'heures d'audio";
+        
+        featureTexts[1].querySelector("h4").innerText = "Analyse de spectrogrammes";
+        featureTexts[1].querySelector("p").innerText = "Traitement avancé des signaux pour capturer les nuances de la parole";
+        
+        featureTexts[2].querySelector("h4").innerText = "Décodage CTC";
+        featureTexts[2].querySelector("p").innerText = "Technique de pointe pour aligner les séquences audio et textuelles";
+        
+        featureTexts[3].querySelector("h4").innerText = "Support multilingue";
+        featureTexts[3].querySelector("p").innerText = "Prise en charge de plusieurs langues dont l'anglais et le darija";
+        
+        document.querySelector("label[for='langue']").innerText = "Sélectionnez une langue :";
+        document.getElementById("langue").querySelector("option[value='']").innerText = "🌐 Choisir une langue";
+        fileLabel.innerText = "Sélectionnez un fichier audio (.wav) :";
+        submitButton.innerText = "Lancer la transcription";
+        
+        if (resultTitle) resultTitle.innerText = "📝 Résultat de la transcription :";
+    }
+}
+
+// Appeler changeLanguage au chargement de la page pour s'assurer que l'interface est cohérente
+        document.addEventListener('DOMContentLoaded', function() {
+       changeLanguage();
+      });
+
+        function showPage(page) {
+            // Hide all pages
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('about-page').classList.add('hidden');
+            
+            // Reset all navigation links
+            document.getElementById('home-link').classList.remove('active');
+            document.getElementById('about-link').classList.remove('active');
+            
+            // Show selected page and activate link
+            if (page === 'home') {
+                document.getElementById('home-page').classList.remove('hidden');
+                document.getElementById('home-link').classList.add('active');
+            } else if (page === 'about') {
+                document.getElementById('about-page').classList.remove('hidden');
+                document.getElementById('about-link').classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
